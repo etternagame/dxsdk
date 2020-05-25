@@ -8,9 +8,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-
-
-#include "d3d11.h"
+#include "d3dx11.h"
 
 #ifndef __D3DX11GPGPU_H__
 #define __D3DX11GPGPU_H__
@@ -18,8 +16,8 @@
 // Current name of the DLL shipped in the same SDK as this header.
 
 
-#define D3DCSX_DLL_W L"d3dcsx_47.dll"
-#define D3DCSX_DLL_A "d3dcsx_47.dll"
+#define D3DCSX_DLL_W L"d3dcsx_43.dll"
+#define D3DCSX_DLL_A "d3dcsx_43.dll"
 
 #ifdef UNICODE
     #define D3DCSX_DLL D3DCSX_DLL_W 
@@ -98,8 +96,8 @@ DECLARE_INTERFACE_(ID3DX11Scan, IUnknown)
         D3DX11_SCAN_DATA_TYPE               ElementType,
         D3DX11_SCAN_OPCODE                  OpCode,
         UINT                                ElementScanSize,
-        _In_ ID3D11UnorderedAccessView*     pSrc,
-        _In_ ID3D11UnorderedAccessView*     pDst
+        __in ID3D11UnorderedAccessView*     pSrc,
+        __in ID3D11UnorderedAccessView*     pDst
     ) PURE;
 
     //=============================================================================
@@ -119,8 +117,8 @@ DECLARE_INTERFACE_(ID3DX11Scan, IUnknown)
         UINT                                ElementScanSize,
         UINT                                ElementScanPitch,
         UINT                                ScanCount,
-        _In_ ID3D11UnorderedAccessView*     pSrc,
-        _In_ ID3D11UnorderedAccessView*     pDst
+        __in ID3D11UnorderedAccessView*     pSrc,
+        __in ID3D11UnorderedAccessView*     pDst
     ) PURE;
 };
 
@@ -133,10 +131,10 @@ DECLARE_INTERFACE_(ID3DX11Scan, IUnknown)
 //  ppScanContext       new scan context
 //=============================================================================
 HRESULT WINAPI D3DX11CreateScan(
-    _In_ ID3D11DeviceContext* pDeviceContext,
+    __in ID3D11DeviceContext* pDeviceContext,
     UINT MaxElementScanSize,
     UINT MaxScanCount,
-    _Out_ ID3DX11Scan** ppScan );
+    __out ID3DX11Scan** ppScan );
 
 
 
@@ -176,9 +174,9 @@ DECLARE_INTERFACE_(ID3DX11SegmentedScan, IUnknown)
         D3DX11_SCAN_DATA_TYPE               ElementType,
         D3DX11_SCAN_OPCODE                  OpCode,
         UINT                                ElementScanSize,
-        _In_opt_ ID3D11UnorderedAccessView* pSrc,
-        _In_ ID3D11UnorderedAccessView*     pSrcElementFlags,
-        _In_ ID3D11UnorderedAccessView*     pDst
+        __in_opt ID3D11UnorderedAccessView* pSrc,
+        __in ID3D11UnorderedAccessView*     pSrcElementFlags,
+        __in ID3D11UnorderedAccessView*     pDst
     ) PURE;
 };
 
@@ -190,9 +188,9 @@ DECLARE_INTERFACE_(ID3DX11SegmentedScan, IUnknown)
 //  ppScanContext       new scan context
 //=============================================================================
 HRESULT WINAPI D3DX11CreateSegmentedScan(
-    _In_ ID3D11DeviceContext* pDeviceContext,
+    __in ID3D11DeviceContext* pDeviceContext,
     UINT MaxElementScanSize,
-    _Out_ ID3DX11SegmentedScan** ppScan );
+    __out ID3DX11SegmentedScan** ppScan );
 
 
 
@@ -244,10 +242,10 @@ DECLARE_INTERFACE_(ID3DX11FFT, IUnknown)
     // NumPrecomputeBuffers         number of buffers in ppPrecomputeBufferSizes
     // ppPrecomputeBufferSizes      buffers to hold precomputed data
     STDMETHOD(AttachBuffersAndPrecompute)(  THIS_
-        _In_range_(0,D3DX11_FFT_MAX_TEMP_BUFFERS) UINT NumTempBuffers,
-        _In_reads_(NumTempBuffers) ID3D11UnorderedAccessView* const* ppTempBuffers,    
-        _In_range_(0,D3DX11_FFT_MAX_PRECOMPUTE_BUFFERS) UINT NumPrecomputeBuffers,
-        _In_reads_(NumPrecomputeBuffers) ID3D11UnorderedAccessView* const* ppPrecomputeBufferSizes ) PURE;
+        __in_range(0,D3DX11_FFT_MAX_TEMP_BUFFERS) UINT NumTempBuffers,
+        __in_ecount(NumTempBuffers) ID3D11UnorderedAccessView*const* ppTempBuffers,    
+        __in_range(0,D3DX11_FFT_MAX_PRECOMPUTE_BUFFERS) UINT NumPrecomputeBuffers,
+        __in_ecount(NumPrecomputeBuffers) ID3D11UnorderedAccessView*const* ppPrecomputeBufferSizes ) PURE;
 
     //------------------------------------------------------------------------------
     // Call after buffers have been attached to the context, pInput and *ppOuput can 
@@ -261,12 +259,12 @@ DECLARE_INTERFACE_(ID3DX11FFT, IUnknown)
     // pInputBuffer         view onto input buffer
     // ppOutpuBuffert       pointer to view of output buffer
     STDMETHOD(ForwardTransform)( THIS_ 
-        _In_ const ID3D11UnorderedAccessView* pInputBuffer,
-        _Inout_ ID3D11UnorderedAccessView** ppOutputBuffer ) PURE;
+        __in const ID3D11UnorderedAccessView* pInputBuffer,
+        __inout ID3D11UnorderedAccessView** ppOutputBuffer ) PURE;
 
     STDMETHOD(InverseTransform)( THIS_ 
-        _In_ const ID3D11UnorderedAccessView* pInputBuffer,
-        _Inout_ ID3D11UnorderedAccessView** ppOutputBuffer ) PURE;
+        __in const ID3D11UnorderedAccessView* pInputBuffer,
+        __inout ID3D11UnorderedAccessView** ppOutputBuffer ) PURE;
 };
 
 
@@ -306,9 +304,9 @@ typedef struct D3DX11_FFT_DESC
 
 typedef struct D3DX11_FFT_BUFFER_INFO
 {
-    _Field_range_(0,D3DX11_FFT_MAX_TEMP_BUFFERS) UINT NumTempBufferSizes;
+    __range(0,D3DX11_FFT_MAX_TEMP_BUFFERS) UINT NumTempBufferSizes;
     UINT TempBufferFloatSizes[D3DX11_FFT_MAX_TEMP_BUFFERS];
-    _Field_range_(0,D3DX11_FFT_MAX_PRECOMPUTE_BUFFERS) UINT NumPrecomputeBufferSizes;
+    __range(0,D3DX11_FFT_MAX_PRECOMPUTE_BUFFERS) UINT NumPrecomputeBufferSizes;
     UINT PrecomputeBufferFloatSizes[D3DX11_FFT_MAX_PRECOMPUTE_BUFFERS];    
 } D3DX11_FFT_BUFFER_INFO;
 
@@ -346,41 +344,41 @@ typedef enum D3DX11_FFT_CREATE_FLAG
 
 HRESULT WINAPI D3DX11CreateFFT( 
    ID3D11DeviceContext* pDeviceContext,
-   _In_ const D3DX11_FFT_DESC* pDesc,
+   __in const D3DX11_FFT_DESC* pDesc,
    UINT Flags,
-   _Out_ D3DX11_FFT_BUFFER_INFO* pBufferInfo,
-   _Out_ ID3DX11FFT** ppFFT
+   __out D3DX11_FFT_BUFFER_INFO* pBufferInfo,
+   __out ID3DX11FFT** ppFFT
  );
 
 HRESULT WINAPI D3DX11CreateFFT1DReal( 
    ID3D11DeviceContext* pDeviceContext,
    UINT X,
    UINT Flags,
-   _Out_ D3DX11_FFT_BUFFER_INFO* pBufferInfo,
-   _Out_ ID3DX11FFT** ppFFT
+   __out D3DX11_FFT_BUFFER_INFO* pBufferInfo,
+   __out ID3DX11FFT** ppFFT
  );
 HRESULT WINAPI D3DX11CreateFFT1DComplex( 
    ID3D11DeviceContext* pDeviceContext,
    UINT X,
    UINT Flags,
-   _Out_ D3DX11_FFT_BUFFER_INFO* pBufferInfo,
-   _Out_ ID3DX11FFT** ppFFT
+   __out D3DX11_FFT_BUFFER_INFO* pBufferInfo,
+   __out ID3DX11FFT** ppFFT
  );
 HRESULT WINAPI D3DX11CreateFFT2DReal( 
    ID3D11DeviceContext* pDeviceContext,
    UINT X,
    UINT Y,
    UINT Flags,
-   _Out_ D3DX11_FFT_BUFFER_INFO* pBufferInfo,
-   _Out_ ID3DX11FFT** ppFFT
+   __out D3DX11_FFT_BUFFER_INFO* pBufferInfo,
+   __out ID3DX11FFT** ppFFT
  );
 HRESULT WINAPI D3DX11CreateFFT2DComplex( 
    ID3D11DeviceContext* pDeviceContext,
    UINT X,
    UINT Y,
    UINT Flags,
-   _Out_ D3DX11_FFT_BUFFER_INFO* pBufferInfo,
-   _Out_ ID3DX11FFT** ppFFT
+   __out D3DX11_FFT_BUFFER_INFO* pBufferInfo,
+   __out ID3DX11FFT** ppFFT
  );
 HRESULT WINAPI D3DX11CreateFFT3DReal( 
    ID3D11DeviceContext* pDeviceContext,
@@ -388,8 +386,8 @@ HRESULT WINAPI D3DX11CreateFFT3DReal(
    UINT Y,
    UINT Z,
    UINT Flags,
-   _Out_ D3DX11_FFT_BUFFER_INFO* pBufferInfo,
-   _Out_ ID3DX11FFT** ppFFT
+   __out D3DX11_FFT_BUFFER_INFO* pBufferInfo,
+   __out ID3DX11FFT** ppFFT
  );
 HRESULT WINAPI D3DX11CreateFFT3DComplex( 
    ID3D11DeviceContext* pDeviceContext,
@@ -397,8 +395,8 @@ HRESULT WINAPI D3DX11CreateFFT3DComplex(
    UINT Y,
    UINT Z,
    UINT Flags,
-   _Out_ D3DX11_FFT_BUFFER_INFO* pBufferInfo,
-   _Out_ ID3DX11FFT** ppFFT
+   __out D3DX11_FFT_BUFFER_INFO* pBufferInfo,
+   __out ID3DX11FFT** ppFFT
  );
 
 

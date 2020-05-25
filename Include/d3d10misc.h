@@ -18,8 +18,6 @@
 extern "C" {
 #endif //__cplusplus
 
-
-
 ///////////////////////////////////////////////////////////////////////////
 // D3D10_DRIVER_TYPE
 // ----------------
@@ -74,12 +72,12 @@ DEFINE_GUID(GUID_DeviceType,
 //      
 ///////////////////////////////////////////////////////////////////////////
 HRESULT WINAPI D3D10CreateDevice(
-    _In_opt_ IDXGIAdapter *pAdapter,
+    IDXGIAdapter *pAdapter,
     D3D10_DRIVER_TYPE DriverType,
     HMODULE Software,
     UINT Flags,
     UINT SDKVersion,
-    _Out_opt_ ID3D10Device **ppDevice);
+    ID3D10Device **ppDevice);
 
 ///////////////////////////////////////////////////////////////////////////
 // D3D10CreateDeviceAndSwapChain
@@ -118,14 +116,14 @@ HRESULT WINAPI D3D10CreateDevice(
 //      
 ///////////////////////////////////////////////////////////////////////////
 HRESULT WINAPI D3D10CreateDeviceAndSwapChain(
-    _In_opt_ IDXGIAdapter *pAdapter,
+    IDXGIAdapter *pAdapter,
     D3D10_DRIVER_TYPE DriverType,
     HMODULE Software,
     UINT Flags,
     UINT SDKVersion,
-    _In_opt_ DXGI_SWAP_CHAIN_DESC *pSwapChainDesc,
-    _Out_opt_ IDXGISwapChain **ppSwapChain,    
-    _Out_opt_ ID3D10Device **ppDevice);
+    DXGI_SWAP_CHAIN_DESC *pSwapChainDesc,
+    IDXGISwapChain **ppSwapChain,    
+    ID3D10Device **ppDevice);
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -134,8 +132,7 @@ HRESULT WINAPI D3D10CreateDeviceAndSwapChain(
 // Creates a Buffer of n Bytes
 //////////////////////////////////////////////////////////////////////////
 
-HRESULT WINAPI D3D10CreateBlob(SIZE_T NumBytes, _Out_ LPD3D10BLOB *ppBuffer);
-
+HRESULT WINAPI D3D10CreateBlob(SIZE_T NumBytes, LPD3D10BLOB *ppBuffer);
 
 #ifdef __cplusplus
 }
